@@ -21,6 +21,8 @@ def proceso(env, nombre, cpu, memoria, cantidad_memoria, total_instrucciones, ve
     print(f'{tiempo_final}: El proceso {nombre} ha terminado, tiempo final.')
     print(f"El proceso {nombre} inició en {tiempo_inicio} y terminó en {tiempo_final}.")
     yield memoria.put(cantidad_memoria)
+    # pedir permiso escribir -- list
+    # escribe en el list
 
     
     # Mientras el proceso tenga instrucciones por ejecutar, sigue en un ciclo.
