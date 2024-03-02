@@ -66,15 +66,18 @@ def configuracion_simulacion(env, num_procesos, intervalo, capacidad_memoria, ve
         yield env.timeout(tiempo_llegada)
 
 def calcular_estadisticas():
-    tiempos_totales = [tiempos_fin[nombre] - tiempos_inicio[nombre] for nombre in tiempos_inicio]
-    print(f"Tiempo promedio de ejecución: {statistics.mean(tiempos_totales):.2f}")
-    if len(tiempos_totales) > 1:
-        print(f"Desviación estándar: {statistics.stdev(tiempos_totales):.2f}")
+    tiempos_totales = [tiempos_fin[nombre] - tiempos_inicio[nombre] for nombre in tiempos_inicio if nombre in tiempos_fin]
+    if tiempos_totales:
+        print(f"Tiempo promedio de ejecución: {statistics.mean(tiempos_totales):.2f}")
+        if len(tiempos_totales) > 1:
+            print(f"Desviación estándar: {statistics.stdev(tiempos_totales):.2f}")
+        else:
+            print("Desviación estándar: No aplicable con un solo proceso.")
     else:
-        print("Desviación estándar: No aplicable con un solo proceso.")
+        print("No hay datos suficientes para calcular estadísticas.")
 
 # Configura y ejecuta el entorno de simulación con los parámetros definidos.
 env = simpy.Environment()
-env.process(configuracion_simulacion(env, num_procesos=5, intervalo=10, capacidad_memoria=100, velocidad_cpu=3, num_cpus=2))
+env.process(configuracion_simulacion(env, num_procesos=200, intervalo=1, capacidad_memoria=100, velocidad_cpu=3, num_cpus=2))
 env.run(until=50)
 calcular_estadisticas()
